@@ -1,7 +1,10 @@
-Post-Incident Reflection: Persistence Hunting
+Post-Incident Reflection: Host-Based Remediation
+The Gap: While perimeter defenses (Firewall) were successful, host-based persistence remained active during the engagement.
 
-Observation: During the final phase, the Red Team maintained persistent access via an obfuscated Registry Key (HKCU\Software\Microsoft\Windows\CurrentVersion\Run).
+Research & Remediation Strategy:
 
-Gaps Identified: My initial response focused heavily on the Network Layer (L3/L4) rather than the Host Layer (L7/Registry).
+Persistence Hunting: I have since mastered the use of Autoruns (Sysinternals) to identify malware hiding in HKCU\Software\Microsoft\Windows\CurrentVersion\Run and scheduled tasks.
 
-Remediation Plan: Since the engagement, I have integrated the Sysinternals Suite (Autoruns/Procmon) into my standard hardening workflow to identify and neutralize similar non-process-based persistence.
+Advanced Process Analysis: For future engagements, I will use Process Explorer to verify executable signatures. If a process like svchost.exe lacks a Verified Signer (Microsoft Corporation), it is flagged as high-risk malware injection.
+
+Service Integrity: I now audit the binPath in the registry (HKLM\SYSTEM\CurrentControlSet\Services) to ensure Red Teamers haven't redirected legitimate services to malicious binaries.
