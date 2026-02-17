@@ -1,10 +1,16 @@
-Post-Incident Reflection: Host-Based Remediation
-The Gap: While perimeter defenses (Firewall) were successful, host-based persistence remained active during the engagement.
+Post-Engagement Retrospective: Windows Server Core Defense
+Technical Focus: sunrise (10.250.60.252)
 
-Research & Remediation Strategy:
+Critical Infrastructure Risks:
 
-Persistence Hunting: I have since mastered the use of Autoruns (Sysinternals) to identify malware hiding in HKCU\Software\Microsoft\Windows\CurrentVersion\Run and scheduled tasks.
+Credential Spraying: The use of a universal credential (Trying-Our-Best1) for the administrative user alexisj across the environment was a primary vector for Red Team lateral movement.
 
-Advanced Process Analysis: For future engagements, I will use Process Explorer to verify executable signatures. If a process like svchost.exe lacks a Verified Signer (Microsoft Corporation), it is flagged as high-risk malware injection.
+Headless Environments: Managing a Windows Server Core machine without a GUI requires high proficiency in PowerShell and SConfig.
 
-Service Integrity: I now audit the binPath in the registry (HKLM\SYSTEM\CurrentControlSet\Services) to ensure Red Teamers haven't redirected legitimate services to malicious binaries.
+Key Takeaways:
+
+Firewall Precision: In Server Core, misconfiguring a firewall rule can permanently lock out administrative access via RDP/WinRM, requiring a "revert" action from the Black Team.
+
+Service Dependency Awareness: Understanding that DNS (hosted on Frontier) is a dependency for all Windows authentication ensures faster troubleshooting when RDP connections fail.
+
+Whitelisting over Blacklisting: Whitelisting the scoring agent (BTA) IPs is more effective than trying to block every individual Red Team IP.
